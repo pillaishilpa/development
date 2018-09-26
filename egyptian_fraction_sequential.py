@@ -1,4 +1,3 @@
-import sys
 def main():
 	try:
 		num=int(raw_input('enter the numerator value: '))
@@ -7,8 +6,7 @@ def main():
 			print 'invalid entry please enter a value greater than 0 with numerator greator than denominator\n'
 			return
 		temp=2
-		final=num*1.0/denum
-		print final
+		final=nume*1.0/denome
 		sum=0
 		while(1):
 			sum+=1.0/temp
@@ -18,7 +16,7 @@ def main():
 			if(sum > final):
 				sum-=1.0/temp
 			else:
-				sys.stdout.write("1/%d +" %(temp))
+			sys.stdout.write("1/%d +" %(temp))
 			temp+=1
 	except Exception as e:
 		print "please enter an integer value greater than ZERO"
