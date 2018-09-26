@@ -1,0 +1,58 @@
+/*****************************************************************************
+*
+* NAME     : dr174615.bteq
+*
+* PURPOSE  : DR regression test suite creation
+*
+* ABSTRACT : QVET:Failure 7487@UpdateSpace_Row/AppendRow/sutrespr_qb/sutrespr/
+*            WalkTbl/stpret/awtstphd/awtmain/tsknewthread 
+*				
+* HISTORY  : 2016/05/16 SC255026 Created
+*
+*****************************************************************************/
+.set session trans btet;
+.logon blue3002.labs.teradata.com/dbc,dbc;
+
+drop JOIN INDEX dr174615_usr.j01c;
+drop join index dr174615_usr.ji1;
+delete user dr174615_usr;
+drop user dr174615_usr;
+
+create user dr174615_usr as perm=(hashamp()+1)*3e7,password=dr174615_usr;
+
+.logon dr174615_usr,dr174615_usr; 
+
+diagnostic enbjindsel on for session;
+diagnostic nocache on for session;
+diagnostic nojind on for session;
+diagnostic nocache on for session;
+
+ct t1(a1 int NOT NULL, b1 DATE FORMAT 'yyyy-mm-dd' NOT NULL,c1  DATE FORMAT
+ 'yyyy-mm-dd' NOT NULL,e1 int)
+primary index (a1)
+;
+
+ins t1(08,'1990-01-01','1990-01-01',1);
+
+
+drop join index ji1;
+
+diagnostic "setcurrentdate 1000103" on for session;
+sel current_date;
+sel extract (month from (current_date));
+sel 1 from t1 where extract (month from (CURRENT_DATE)) in (1,3);
+create join index ji1 as
+sel a1,b1
+from t1
+where extract (month from (CURRENT_DATE)) in (1,3)
+;
+
+.logon dbc,dbc;
+
+drop JOIN INDEX dr174615_usr.j01c;
+drop join index dr174615_usr.ji1;
+delete user dr174615_usr;
+drop user dr174615_usr;
+
+.logoff;
+.quit;
