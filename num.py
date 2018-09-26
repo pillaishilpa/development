@@ -1,6 +1,6 @@
 import re
 print 'enter a num'
-i=int(raw_input())
+i=int(raw_input(num))
 c=0
 while i>0:
 	c+=1
